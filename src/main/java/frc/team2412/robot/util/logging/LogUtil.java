@@ -196,17 +196,17 @@ public class LogUtil {
             @Override
             public int hashCode() {
                 return ((127 * "name".hashCode()) ^ name.hashCode())
-                       + ((127 * "tabName".hashCode()) ^ tabName.hashCode())
-                       + ((127 * "methodName".hashCode()) ^ methodName.hashCode())
-                       + ((127 * "methodTypes".hashCode()) ^ Arrays.hashCode(methodTypes))
-                       + ((127 * "defaultValueBoolean".hashCode()) ^ Boolean.valueOf(defaultValueBoolean).hashCode())
-                       + ((127 * "defaultValueNumeric".hashCode()) ^ Double.valueOf(defaultValueNumeric).hashCode())
-                       + ((127 * "rowIndex".hashCode()) ^ Integer.valueOf(rowIndex).hashCode())
-                       + ((127 * "columnIndex".hashCode()) ^ Integer.valueOf(columnIndex).hashCode())
-                       + ((127 * "width".hashCode()) ^ Integer.valueOf(width).hashCode())
-                       + ((127 * "multiArgLayoutType".hashCode()) ^ multiArgLayoutType.hashCode())
-                       + ((127 * "numGridColumns".hashCode()) ^ Integer.valueOf(numGridColumns).hashCode())
-                       + ((127 * "numGridRows".hashCode()) ^ Integer.valueOf(numGridRows).hashCode());
+                        + ((127 * "tabName".hashCode()) ^ tabName.hashCode())
+                        + ((127 * "methodName".hashCode()) ^ methodName.hashCode())
+                        + ((127 * "methodTypes".hashCode()) ^ Arrays.hashCode(methodTypes))
+                        + ((127 * "defaultValueBoolean".hashCode()) ^ Boolean.valueOf(defaultValueBoolean).hashCode())
+                        + ((127 * "defaultValueNumeric".hashCode()) ^ Double.valueOf(defaultValueNumeric).hashCode())
+                        + ((127 * "rowIndex".hashCode()) ^ Integer.valueOf(rowIndex).hashCode())
+                        + ((127 * "columnIndex".hashCode()) ^ Integer.valueOf(columnIndex).hashCode())
+                        + ((127 * "width".hashCode()) ^ Integer.valueOf(width).hashCode())
+                        + ((127 * "multiArgLayoutType".hashCode()) ^ multiArgLayoutType.hashCode())
+                        + ((127 * "numGridColumns".hashCode()) ^ Integer.valueOf(numGridColumns).hashCode())
+                        + ((127 * "numGridRows".hashCode()) ^ Integer.valueOf(numGridRows).hashCode());
             }
 
             @Override
