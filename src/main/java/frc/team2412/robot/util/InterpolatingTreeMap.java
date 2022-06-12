@@ -67,20 +67,20 @@ public class InterpolatingTreeMap extends TreeMap<Double, ShooterDataDistancePoi
                 }
 
                 String[] items = line.split(",", -1);
-                if (items.length < 3) {
-                    debug.accept("Less than 3 items, skipping line");
+                if (items.length < 4) {
+                    debug.accept("Less than 4 items, skipping line");
                     continue;
-                } else if (items.length > 3) {
-                    debug.accept("More than 3 items, ignoring extra items");
-                    // Extra items aren't processed, could use Arrays.copyOf(items, [newlength]) if needed
+                } else if (items.length > 4) {
+                    debug.accept("More than 4 items, ignoring extra items");
                 }
 
-                double distance, angle, RPM;
+                double distance, angle, RPM, timeOfFlight;
 
                 try {
                     distance = Double.parseDouble(items[0]);
                     angle = Double.parseDouble(items[1]);
                     RPM = Double.parseDouble(items[2]);
+                    timeOfFlight = Double.parseDouble(items[3]);
                 } catch (NumberFormatException err) {
                     debug.accept("Non-numerical value, skipping line");
                     continue;
@@ -102,8 +102,12 @@ public class InterpolatingTreeMap extends TreeMap<Double, ShooterDataDistancePoi
                     debug.accept("Flywheel RPM " + RPM + " is negative, skipping line");
                     continue;
                 }
+                if (timeOfFlight < 0) {
+                    debug.accept("Time of flight " + timeOfFlight + " is negative, skipping line");
+                    continue;
+                }
 
-                map.addDataPoint(new ShooterDataDistancePoint(distance, angle, RPM));
+                map.addDataPoint(new ShooterDataDistancePoint(distance, angle, RPM, timeOfFlight));
             }
 
             // Debug code
@@ -201,20 +205,14 @@ public class InterpolatingTreeMap extends TreeMap<Double, ShooterDataDistancePoi
     private static ShooterDataDistancePoint interpolate(ShooterDataDistancePoint floor,
             ShooterDataDistancePoint ceiling,
             Double key) {
-        double slopeDistanceDifference = ceiling.getDistance() - floor.getDistance();
-        if (slopeDistanceDifference == 0 || Double.isNaN(slopeDistanceDifference)
-                || Double.isInfinite(slopeDistanceDifference)) {
-            System.out.println("ERROR, distance between sample points is an illegal value: " + slopeDistanceDifference);
+        double t = (key - floor.getDistance()) / (ceiling.getDistance() - floor.getAngle());
+        if (Double.isNaN(t) || Double.isInfinite(t)) {
+            System.out.println("Error, interpolation time value is an illegal value: " + t);
             return null;
         }
-        double angleSlope = (ceiling.getAngle() - floor.getAngle()) / slopeDistanceDifference;
-        double rpmSlope = (ceiling.getRPM() - floor.getRPM()) / slopeDistanceDifference;
-        double distanceOffset = key - floor.getDistance();
-        double interpolateAngle = angleSlope * distanceOffset + floor.getAngle();
-        double interpolateRPM = rpmSlope * distanceOffset + floor.getRPM();
-        ShooterDataDistancePoint interpolatePoint = new ShooterDataDistancePoint(key, interpolateAngle,
-                interpolateRPM);
-
-        return interpolatePoint;
+        double angle = (ceiling.getAngle() - floor.getAngle()) * t + floor.getAngle();
+        double RPM = (ceiling.getRPM() - floor.getRPM()) * t + floor.getRPM();
+        double timeOfFlight = (ceiling.getTimeOfFlight() - floor.getTimeOfFlight()) * t + floor.getTimeOfFlight();
+        return new ShooterDataDistancePoint(key, angle, RPM, timeOfFlight);
     }
 }
