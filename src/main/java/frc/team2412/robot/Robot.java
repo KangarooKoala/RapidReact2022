@@ -19,6 +19,8 @@ import org.frcteam2910.common.robot.UpdateManager;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.hal.simulation.DriverStationDataJNI;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticHub;
@@ -36,6 +38,8 @@ import frc.team2412.robot.subsystem.TestingSubsystem;
 import frc.team2412.robot.util.MACAddress;
 import frc.team2412.robot.util.autonomous.AutonomousChooser;
 import io.github.oblarg.oblog.Logger;
+import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonPipelineResult;
 
 public class Robot extends TimedRobot {
     /**
@@ -56,6 +60,7 @@ public class Robot extends TimedRobot {
     private final PowerDistribution PDP;
     private UsbCamera driverVisionCamera;
     private UsbCamera fishCamera;
+    private PhotonCamera photonCamera = new PhotonCamera(Hardware.PHOTON_CAM);
     private PneumaticHub pneumaticHub;
 
     private static final double MIN_PRESSURE = 90;
@@ -132,6 +137,12 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         LiveWindow.disableAllTelemetry();
         LiveWindow.enableTelemetry(PDP);
+
+        if (RobotBase.isSimulation()) {
+            NetworkTableInstance instance = NetworkTableInstance.getDefault();
+            instance.stopServer();
+            instance.startClient("localhost");
+        }
 
         subsystems = new Subsystems();
         controls = new Controls(subsystems);
@@ -228,10 +239,18 @@ public class Robot extends TimedRobot {
         autonomousChooser.scheduleCommand();
     }
 
+    int photonTimer = 0;
+
     @Override
     public void robotPeriodic() {
         Logger.updateEntries();
         CommandScheduler.getInstance().run();
+        if (photonTimer++ == 50) {
+            photonTimer = 0;
+            PhotonPipelineResult result = photonCamera.getLatestResult();
+            boolean photonHasTargets = result.hasTargets();
+            System.out.println("Photon has target: " + photonHasTargets);
+        }
     }
 
     @Override

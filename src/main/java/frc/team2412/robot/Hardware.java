@@ -67,7 +67,8 @@ public class Hardware {
     public static final int GYRO_PORT = 62;
 
     // cameras
-    public static final String LIMELIGHT = "limelight", BACK_CAM = "back", FISH_CAM = "fish cam";
+    public static final String LIMELIGHT = "limelight", BACK_CAM = "back", FISH_CAM = "fish cam",
+            PHOTON_CAM = "Integrated_Webcam";
 
     // shooter can ids are range 20-29
     public static final int FLYWHEEL_1 = 20, FLYWHEEL_2 = 21, TURRET = 22, HOOD = 23;
