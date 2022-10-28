@@ -17,6 +17,7 @@ public class Subsystems implements Loggable {
         public static final boolean INDEX_ENABLED = true;
         public static final boolean INTAKE_ENABLED = true;
         public static final boolean SHOOTER_ENABLED = true;
+        public static final boolean PHOTON_ENABLED = true;
 
         public static final boolean COMPRESSOR_ENABLED = true;
     }
@@ -26,6 +27,8 @@ public class Subsystems implements Loggable {
     public DrivebaseSubsystem drivebaseSubsystem;
 
     public ShooterVisionSubsystem shooterVisionSubsystem;
+
+    public PhotonVisionSubsystem photonVisionSubsystem;
 
     public IndexSubsystem indexSubsystem;
 
@@ -61,6 +64,9 @@ public class Subsystems implements Loggable {
             if (DRIVE_ENABLED) {
                 targetLocalizer = new TargetLocalizer(drivebaseSubsystem, shooterSubsystem, shooterVisionSubsystem);
             }
+        }
+        if (PHOTON_ENABLED) {
+            photonVisionSubsystem = new PhotonVisionSubsystem();
         }
         if (POST_CLIMB_ENABLED) {
             postClimbSubsystem = new PostClimbSubsystem();
