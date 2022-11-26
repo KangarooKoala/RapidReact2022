@@ -64,7 +64,6 @@ public class AprilTagFieldLayout {
      *            Width of the field in meters.
      */
     public AprilTagFieldLayout(List<AprilTag> apriltags, double fieldLength, double fieldWidth) {
-        // This is what's currently (11/17/2022) in the WPILib code, will check if this is intentional.
         this(apriltags, new FieldDimensions(fieldLength, fieldWidth));
     }
 
@@ -100,7 +99,7 @@ public class AprilTagFieldLayout {
             case kRedAllianceWallRightSide:
                 setOrigin(
                         new Pose3d(
-                                new Translation3d(m_fieldDimensions.fieldWidth, m_fieldDimensions.fieldLength, 0),
+                                new Translation3d(m_fieldDimensions.fieldLength, m_fieldDimensions.fieldWidth, 0),
                                 new Rotation3d(0, 0, Math.PI)));
                 break;
             default:
@@ -188,14 +187,13 @@ public class AprilTagFieldLayout {
     }
 
     private static class FieldDimensions {
-        public double fieldWidth;
-
-        // @SuppressWarnings("MemberName")
         public double fieldLength;
 
-        FieldDimensions(double fieldWidth, double fieldLength) {
-            this.fieldWidth = fieldWidth;
+        public double fieldWidth;
+
+        FieldDimensions(double fieldLength, double fieldWidth) {
             this.fieldLength = fieldLength;
+            this.fieldWidth = fieldWidth;
         }
     }
 }
