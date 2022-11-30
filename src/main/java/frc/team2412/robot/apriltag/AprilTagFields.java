@@ -5,6 +5,7 @@ public enum AprilTagFields {
 
     public static final String kBaseResourceDir = "/edu/wpi/first/apriltag/";
 
+    /** Alias to the current game. */
     public static final AprilTagFields kDefaultField = k2022RapidReact;
 
     public final String m_resourceFile;
