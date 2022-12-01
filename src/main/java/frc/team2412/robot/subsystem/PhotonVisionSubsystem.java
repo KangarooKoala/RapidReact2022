@@ -14,8 +14,15 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 public class PhotonVisionSubsystem extends SubsystemBase implements Loggable {
+    // Because we have to handle an IOException, we can't initialize fieldLayout in the variable
+    // declaration (private static final AprilTagFieldLayout fieldLayout = ...;)
+    // Instead, we have to initialize it in a static initializer (the static { ... })
     private static final AprilTagFieldLayout fieldLayout;
     static {
+        // This code runs when the class is initialized (same time as normal variable initializers)
+        // We have to use temp so that the compiler knows we initialize fieldLayout exactly once
+        // Otherwise, it thinks we might initialize it twice if we get an IOException after initializing it
+        // in the try block (since then we'd run the catch block and initialize there too)
         AprilTagFieldLayout temp;
         try {
             temp = new AprilTagFieldLayout(Filesystem.getDeployDirectory().toPath().resolve("2022-rapidreact.json"));
