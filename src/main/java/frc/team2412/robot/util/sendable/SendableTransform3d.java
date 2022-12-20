@@ -27,9 +27,9 @@ public class SendableTransform3d implements Sendable {
         addDoubleProperty(builder, "Translation X", transform -> transform.getTranslation().getX());
         addDoubleProperty(builder, "Translation Y", transform -> transform.getTranslation().getY());
         addDoubleProperty(builder, "Translation Z", transform -> transform.getTranslation().getZ());
-        addDoubleProperty(builder, "Rotation Roll", transform -> transform.getRotation().getX());
-        addDoubleProperty(builder, "Rotation Pitch", transform -> transform.getRotation().getY());
-        addDoubleProperty(builder, "Rotation Yaw", transform -> transform.getRotation().getZ());
+        addDoubleProperty(builder, "Rotation X Axis", transform -> transform.getRotation().getX());
+        addDoubleProperty(builder, "Rotation Y Axis", transform -> transform.getRotation().getY());
+        addDoubleProperty(builder, "Rotation Z Axis", transform -> transform.getRotation().getZ());
         addDoubleProperty(builder, "Quaternion W", transform -> transform.getRotation().getQuaternion().getW());
         addDoubleProperty(builder, "Quaternion X", transform -> transform.getRotation().getQuaternion().getX());
         addDoubleProperty(builder, "Quaternion Y", transform -> transform.getRotation().getQuaternion().getY());
